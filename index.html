@@ -12,29 +12,46 @@
         }
 
         .mermaid {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            text-align: center;
         }
     </style>
 </head>
 <body>
 <div class="mermaid">
-    graph LR
-        a[用户进入] --> b[告知用户是什么并等待用户接受]
-        b -- 接受 --> c1[开始拍照]
-        b -- 放弃 --> c2[放弃页面]
-        c1 -- 拍照 --> d[分析页面]
-        d --> e[遍历图片库并调用Face识别接口]
-        e -- 找到匹配人脸 --> f1[显示结果及相似率]
-        e -- 没找到 --> f2[显示未找到]
-        c2 -- 点击试一试 --> c1
-        d -- 点击左上角返回 --> c1
-</div>
+    graph TB
+        a1((用户进入)) --> a2[首页]
+        a2 -- 点击开始 --> b1[拍照]
+        b1 --> c1[分析]
+        c1 --> h1[获取图片目录列表]
+        h1 --> h5[下载单张图片]
+        h5 --> i1[面部比对]
+        i1 --> c2
+        i1 --> c4
+        c2[匹配成功] --> c3[显示图片和相似率]
+        c2 --> h3[上传图片]
+        c4[匹配失败] --> c5[图片列表未遍历完]
+        c5 --> h2[下载单张图片]
+        c4 --> c6[图片列表遍历完]
+        c6 --> c7[达到最大获取图片目录列表次数]
+        c6 --> c8[未达到最大获取图片目录列表次数]
+        c7 --> c9[显示未匹配到]
+        c8 --> h4[获取图片目录列表]
 
+        subgraph 又拍云
+            hh1[获取图片目录列表]
+            hh2[下载单张图片]
+            hh3[上传图片]
+        end
+
+        subgraph Face++
+            ii1[面部比对]
+        end
+
+        classDef green fill:#9f6;
+        classDef yellow fill:#f96;
+        class h1,h2,h3,h4,h5,hh1,hh2,hh3 green;
+        class i1,ii1 yellow;
+</div>
 <script src="https://unpkg.com/mermaid@8.0.0-rc.8/dist/mermaid.min.js"></script>
 <script>mermaid.initialize({startOnLoad:true});</script>
 </body>
