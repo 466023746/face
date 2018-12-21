@@ -33,8 +33,11 @@
         c5 --> h2[下载单张图片]
         c4 --> c6[图片列表遍历完]
         c6 --> c7[达到最大获取图片目录列表次数]
+        c6 --> c10[图片取完]
         c6 --> c8[未达到最大获取图片目录列表次数]
         c7 --> c9[显示未匹配到]
+        c10 --> c9
+        c9 --> h6[上传图片]
         c8 --> h4[获取图片目录列表]
 
         subgraph 又拍云
@@ -49,7 +52,7 @@
 
         classDef green fill:#9f6;
         classDef yellow fill:#f96;
-        class h1,h2,h3,h4,h5,hh1,hh2,hh3 green;
+        class h1,h2,h3,h4,h5,h6,hh1,hh2,hh3 green;
         class i1,ii1 yellow;
 </div>
 <script src="https://unpkg.com/mermaid@8.0.0-rc.8/dist/mermaid.min.js"></script>
